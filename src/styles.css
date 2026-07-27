@@ -190,7 +190,8 @@ body {
   transition: color 0.18s ease;
 }
 
-.format-selector__button.is-active .format-selector__ratio.is-current {
+.format-selector__button.is-active
+  .format-selector__ratio.is-current {
   color: #fff;
 }
 

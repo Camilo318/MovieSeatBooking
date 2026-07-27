@@ -197,23 +197,27 @@ export function updateFormatSelectorState(
   container: HTMLElement,
   movie: Movie
 ): void {
-  container.querySelectorAll<HTMLButtonElement>('.format-selector__button').forEach(button => {
-    const formatId = button.dataset.formatId
-    if (!formatId) {
-      return
-    }
+  container
+    .querySelectorAll<HTMLButtonElement>('.format-selector__button')
+    .forEach(button => {
+      const formatId = button.dataset.formatId
+      if (!formatId) {
+        return
+      }
 
-    const isActive = formatId === movie.activeFormatId
-    button.classList.toggle('is-active', isActive)
-    button.setAttribute('aria-pressed', String(isActive))
+      const isActive = formatId === movie.activeFormatId
+      button.classList.toggle('is-active', isActive)
+      button.setAttribute('aria-pressed', String(isActive))
 
-    button.querySelectorAll('.format-selector__ratio').forEach((ratioEl, index) => {
-      ratioEl.classList.toggle(
-        'is-current',
-        isActive && index === movie.activeRatioIndex
-      )
+      button
+        .querySelectorAll('.format-selector__ratio')
+        .forEach((ratioEl, index) => {
+          ratioEl.classList.toggle(
+            'is-current',
+            isActive && index === movie.activeRatioIndex
+          )
+        })
     })
-  })
 }
 
 function handleFormatSelection(
@@ -227,7 +231,9 @@ function handleFormatSelection(
   callbacks.onPresentationChange(movie)
 }
 
-function buildRatioMarkup(aspectRatios: readonly AspectRatioId[]): string {
+function buildRatioMarkup(
+  aspectRatios: readonly AspectRatioId[]
+): string {
   if (aspectRatios.length <= 1) {
     return `<span class="format-selector__ratio is-current">${aspectRatios[0] ?? 'TBD'}</span>`
   }
@@ -236,7 +242,8 @@ function buildRatioMarkup(aspectRatios: readonly AspectRatioId[]): string {
     <div class="format-selector__ratios">
       ${aspectRatios
         .map((ratio, index) => {
-          const modifiers = index > 0 ? 'format-selector__ratio--alternate' : ''
+          const modifiers =
+            index > 0 ? 'format-selector__ratio--alternate' : ''
           return `<span class="format-selector__ratio ${modifiers}">${ratio}</span>`
         })
         .join('')}

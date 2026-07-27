@@ -40,14 +40,17 @@ export class Movie {
   get aspectRatios(): AspectRatioId[] {
     return [
       ...new Set(
-        this.presentations.flatMap(presentation => presentation.aspectRatios)
+        this.presentations.flatMap(
+          presentation => presentation.aspectRatios
+        )
       )
     ]
   }
 
   get activePresentation(): MoviePresentation | undefined {
     return (
-      this.getPresentation(this.activeFormatId ?? '') ?? this.presentations[0]
+      this.getPresentation(this.activeFormatId ?? '') ??
+      this.presentations[0]
     )
   }
 
@@ -57,7 +60,9 @@ export class Movie {
 
   /** Aspect ratio currently framed on the auditorium screen */
   get activeAspectRatio(): AspectRatioId | undefined {
-    return this.activePresentation?.aspectRatios[this.activeRatioIndex]
+    return this.activePresentation?.aspectRatios[
+      this.activeRatioIndex
+    ]
   }
 
   /** Ticket price comes from the chosen exhibition format, not from the title */

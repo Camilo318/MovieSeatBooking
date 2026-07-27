@@ -1,44 +1,44 @@
-import { Cinema } from './Cinema';
-import { MOVIE_CATALOG } from './data/movies';
-import { renderFormatSelector } from './formatSelector';
-import { Movie } from './Movie';
-import { aspectRatioClassName } from './types/formats';
-import type { AspectRatioId } from './types/formats';
+import { Cinema } from './Cinema'
+import { MOVIE_CATALOG } from './data/movies'
+import { renderFormatSelector } from './formatSelector'
+import { Movie } from './Movie'
+import { aspectRatioClassName } from './types/formats'
+import type { AspectRatioId } from './types/formats'
 
 const SCREEN_RATIO_CLASSES = [
   'ratio-1-43',
   'ratio-1-85',
   'ratio-1-90',
   'ratio-2-20',
-  'ratio-2-39',
-] as const;
+  'ratio-2-39'
+] as const
 
-const AUDITORIUM_ROWS = 9;
-const SEATS_PER_ROW = 14;
+const AUDITORIUM_ROWS = 9
+const SEATS_PER_ROW = 14
 
-document.addEventListener('DOMContentLoaded', openCinema);
+document.addEventListener('DOMContentLoaded', openCinema)
 
 function openCinema(): void {
-  const seatMap = document.getElementById('seat-map');
+  const seatMap = document.getElementById('seat-map')
 
   if (!(seatMap instanceof HTMLElement)) {
-    throw new Error('Missing seat map element');
+    throw new Error('Missing seat map element')
   }
 
-  buildSeatMap(seatMap, AUDITORIUM_ROWS, SEATS_PER_ROW);
+  buildSeatMap(seatMap, AUDITORIUM_ROWS, SEATS_PER_ROW)
 
-  const seats = document.querySelectorAll('.row .seat');
-  const buyBtn = document.querySelector('.confirm-btn');
-  const deleteBtn = document.querySelector('.erase-btn');
-  const formatSelector = document.getElementById('format-selector');
-  const movieSelect = document.getElementById('movie');
-  const container = document.querySelector('.container');
-  const screen = document.getElementById('auditorium-screen');
-  const screenMedia = screen?.querySelector('.screen__media');
-  const activeFormatLabel = document.getElementById('active-format');
-  const ticketPriceLabel = document.getElementById('ticket-price');
-  const prevStillBtn = document.getElementById('screen-prev');
-  const nextStillBtn = document.getElementById('screen-next');
+  const seats = document.querySelectorAll('.row .seat')
+  const buyBtn = document.querySelector('.confirm-btn')
+  const deleteBtn = document.querySelector('.erase-btn')
+  const formatSelector = document.getElementById('format-selector')
+  const movieSelect = document.getElementById('movie')
+  const container = document.querySelector('.container')
+  const screen = document.getElementById('auditorium-screen')
+  const screenMedia = screen?.querySelector('.screen__media')
+  const activeFormatLabel = document.getElementById('active-format')
+  const ticketPriceLabel = document.getElementById('ticket-price')
+  const prevStillBtn = document.getElementById('screen-prev')
+  const nextStillBtn = document.getElementById('screen-next')
 
   if (
     !(movieSelect instanceof HTMLSelectElement) ||
@@ -53,155 +53,155 @@ function openCinema(): void {
     !(prevStillBtn instanceof HTMLButtonElement) ||
     !(nextStillBtn instanceof HTMLButtonElement)
   ) {
-    throw new Error('Missing required DOM elements');
+    throw new Error('Missing required DOM elements')
   }
 
   const gallery = {
     image: screenMedia,
     prevBtn: prevStillBtn,
-    nextBtn: nextStillBtn,
-  };
+    nextBtn: nextStillBtn
+  }
 
   const movies = MOVIE_CATALOG.map(
     ({ name, presentations, media }) =>
-      new Movie(name, presentations, media),
-  );
+      new Movie(name, presentations, media)
+  )
 
-  populateMovieSelect(movieSelect, movies);
+  populateMovieSelect(movieSelect, movies)
 
-  const cinema = new Cinema(movies, seats);
+  const cinema = new Cinema(movies, seats)
 
   const syncPresentationView = (movie: Movie): void => {
-    applyScreenRatio(screen, movie.activeAspectRatio);
-    renderScreenMedia(movie);
+    applyScreenRatio(screen, movie.activeAspectRatio)
+    renderScreenMedia(movie)
 
-    const activeFormat = movie.activeFormat;
-    activeFormatLabel.textContent = activeFormat?.name ?? 'Digital';
-    ticketPriceLabel.textContent = `$${movie.price} / ticket`;
-  };
+    const activeFormat = movie.activeFormat
+    activeFormatLabel.textContent = activeFormat?.name ?? 'Digital'
+    ticketPriceLabel.textContent = `$${movie.price} / ticket`
+  }
 
   const renderFormatsForMovie = (movie: Movie): void => {
     renderFormatSelector(formatSelector, movie, {
-      onPresentationChange: (updatedMovie) => {
-        syncPresentationView(updatedMovie);
-        cinema.updateSelection(updatedMovie.price);
-      },
-    });
-    syncPresentationView(movie);
-  };
+      onPresentationChange: updatedMovie => {
+        syncPresentationView(updatedMovie)
+        cinema.updateSelection(updatedMovie.price)
+      }
+    })
+    syncPresentationView(movie)
+  }
 
   const syncCurrentMovieView = (): void => {
-    const movie = movies[movieSelect.selectedIndex];
-    cinema.showSeats(movieSelect.selectedIndex);
-    renderFormatsForMovie(movie);
-  };
+    const movie = movies[movieSelect.selectedIndex]
+    cinema.showSeats(movieSelect.selectedIndex)
+    renderFormatsForMovie(movie)
+  }
 
   function renderScreenMedia(movie: Movie): void {
-    const still = movie.currentMedia;
+    const still = movie.currentMedia
 
     if (still) {
-      gallery.image.src = still;
-      gallery.image.alt = `${movie.name} still ${movie.mediaIndex + 1} of ${movie.media.length}`;
-      gallery.image.hidden = false;
+      gallery.image.src = still
+      gallery.image.alt = `${movie.name} still ${movie.mediaIndex + 1} of ${movie.media.length}`
+      gallery.image.hidden = false
     } else {
-      gallery.image.removeAttribute('src');
-      gallery.image.alt = '';
-      gallery.image.hidden = true;
+      gallery.image.removeAttribute('src')
+      gallery.image.alt = ''
+      gallery.image.hidden = true
     }
 
-    gallery.prevBtn.hidden = !movie.hasMediaGallery;
-    gallery.nextBtn.hidden = !movie.hasMediaGallery;
+    gallery.prevBtn.hidden = !movie.hasMediaGallery
+    gallery.nextBtn.hidden = !movie.hasMediaGallery
   }
 
   const stepStill = (offset: number): void => {
-    const movie = movies[movieSelect.selectedIndex];
-    movie.stepMedia(offset);
-    renderScreenMedia(movie);
-  };
+    const movie = movies[movieSelect.selectedIndex]
+    movie.stepMedia(offset)
+    renderScreenMedia(movie)
+  }
 
-  gallery.prevBtn.addEventListener('click', () => stepStill(-1));
-  gallery.nextBtn.addEventListener('click', () => stepStill(1));
+  gallery.prevBtn.addEventListener('click', () => stepStill(-1))
+  gallery.nextBtn.addEventListener('click', () => stepStill(1))
 
-  syncCurrentMovieView();
+  syncCurrentMovieView()
 
-  container.addEventListener('click', (e) => {
-    const target = e.target;
+  container.addEventListener('click', e => {
+    const target = e.target
 
     if (
       target instanceof HTMLElement &&
       target.classList.contains('seat') &&
       !target.classList.contains('occupied')
     ) {
-      cinema.selectSeat(target, movieSelect.selectedIndex);
+      cinema.selectSeat(target, movieSelect.selectedIndex)
     }
-  });
+  })
 
   movieSelect.addEventListener('change', () => {
-    syncCurrentMovieView();
-  });
+    syncCurrentMovieView()
+  })
 
   buyBtn.addEventListener('click', () => {
-    cinema.buyTickets(movieSelect.selectedIndex);
-  });
+    cinema.buyTickets(movieSelect.selectedIndex)
+  })
 
   deleteBtn.addEventListener('click', () => {
-    cinema.deleteSeats(movieSelect.selectedIndex);
-  });
+    cinema.deleteSeats(movieSelect.selectedIndex)
+  })
 }
 
 function applyScreenRatio(
   screen: HTMLElement,
-  aspectRatio?: AspectRatioId,
+  aspectRatio?: AspectRatioId
 ): void {
-  screen.classList.remove(...SCREEN_RATIO_CLASSES);
+  screen.classList.remove(...SCREEN_RATIO_CLASSES)
 
   if (aspectRatio) {
-    screen.classList.add(aspectRatioClassName(aspectRatio));
+    screen.classList.add(aspectRatioClassName(aspectRatio))
   }
 }
 
 function buildSeatMap(
   seatMap: HTMLElement,
   rows: number,
-  seatsPerRow: number,
+  seatsPerRow: number
 ): void {
-  seatMap.innerHTML = '';
+  seatMap.innerHTML = ''
 
   for (let rowIndex = 0; rowIndex < rows; rowIndex++) {
-    const row = document.createElement('div');
-    const rowLetter = String.fromCharCode(65 + rowIndex);
-    row.className = 'row';
+    const row = document.createElement('div')
+    const rowLetter = String.fromCharCode(65 + rowIndex)
+    row.className = 'row'
 
-    const leadingLabel = document.createElement('span');
-    leadingLabel.className = 'row__label';
-    leadingLabel.textContent = rowLetter;
-    row.append(leadingLabel);
+    const leadingLabel = document.createElement('span')
+    leadingLabel.className = 'row__label'
+    leadingLabel.textContent = rowLetter
+    row.append(leadingLabel)
 
     for (let seatIndex = 0; seatIndex < seatsPerRow; seatIndex++) {
-      const seat = document.createElement('div');
-      seat.className = 'seat';
-      row.append(seat);
+      const seat = document.createElement('div')
+      seat.className = 'seat'
+      row.append(seat)
     }
 
-    const trailingLabel = document.createElement('span');
-    trailingLabel.className = 'row__label';
-    trailingLabel.textContent = rowLetter;
-    row.append(trailingLabel);
+    const trailingLabel = document.createElement('span')
+    trailingLabel.className = 'row__label'
+    trailingLabel.textContent = rowLetter
+    row.append(trailingLabel)
 
-    seatMap.append(row);
+    seatMap.append(row)
   }
 }
 
 function populateMovieSelect(
   movieSelect: HTMLSelectElement,
-  movies: readonly Movie[],
+  movies: readonly Movie[]
 ): void {
-  movieSelect.innerHTML = '';
+  movieSelect.innerHTML = ''
 
   movies.forEach((movie, index) => {
-    const option = document.createElement('option');
-    option.value = String(index);
-    option.textContent = `${movie.name} (from $${movie.lowestPrice})`;
-    movieSelect.append(option);
-  });
+    const option = document.createElement('option')
+    option.value = String(index)
+    option.textContent = `${movie.name} (from $${movie.lowestPrice})`
+    movieSelect.append(option)
+  })
 }
