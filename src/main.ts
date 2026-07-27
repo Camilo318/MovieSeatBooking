@@ -63,7 +63,8 @@ function openCinema(): void {
   };
 
   const movies = MOVIE_CATALOG.map(
-    ({ name, formats, media }) => new Movie(name, formats, media),
+    ({ name, presentations, media }) =>
+      new Movie(name, presentations, media),
   );
 
   populateMovieSelect(movieSelect, movies);

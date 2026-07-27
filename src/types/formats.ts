@@ -18,10 +18,20 @@ export function aspectRatioClassName(ratio: AspectRatioId): string {
 export interface ExhibitionFormat {
   id: string
   name: string
-  aspectRatios: readonly AspectRatioId[]
   /** Ticket price in USD. Every title costs the same, only the format changes it. */
   price: number
   resolution?: string
   features?: readonly string[]
   info?: string
+}
+
+/**
+ * How a specific title plays in a specific format. Aspect ratio belongs to this
+ * pairing rather than to the format, because the combination is per movie:
+ * Toy Story 5 stays 1.85:1 even in Dolby Cinema, while The Odyssey runs Dolby
+ * at either 1.85:1 or 2.39:1.
+ */
+export interface MoviePresentation {
+  format: ExhibitionFormat
+  aspectRatios: readonly AspectRatioId[]
 }

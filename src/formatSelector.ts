@@ -1,5 +1,5 @@
 import type { Movie } from './Movie'
-import type { ExhibitionFormat } from './types/formats'
+import type { AspectRatioId } from './types/formats'
 
 type FormatArtwork = {
   graphic: string
@@ -156,7 +156,7 @@ export function populateFormatSelector({
 }: PopulateFormatSelectorOptions): void {
   container.innerHTML = ''
 
-  if (!movie.formats.length) {
+  if (!movie.presentations.length) {
     const emptyState = document.createElement('p')
     emptyState.className = 'format-selector__empty'
     emptyState.textContent =
@@ -165,18 +165,19 @@ export function populateFormatSelector({
     return
   }
 
-  const currentActiveFormat =
-    movie.getFormat(activeFormatId ?? '') ?? movie.formats[0]
+  const currentActivePresentation =
+    movie.getPresentation(activeFormatId ?? '') ??
+    movie.presentations[0]
 
-  movie.formats.forEach(format => {
+  movie.presentations.forEach(({ format, aspectRatios }) => {
     const button = document.createElement('button')
     const artwork = FORMAT_ARTWORK[format.id] ?? DEFAULT_ARTWORK
-    const isActive = format.id === currentActiveFormat.id
+    const isActive = format.id === currentActivePresentation.format.id
 
     button.type = 'button'
     button.className = 'format-selector__button'
 
-    if (format.aspectRatios.length > 1) {
+    if (aspectRatios.length > 1) {
       button.classList.add('format-selector__button--multiple')
     }
 
@@ -190,7 +191,7 @@ export function populateFormatSelector({
     button.innerHTML = `
       <div class="format-selector__graphic">${artwork.graphic}</div>
       <div class="format-selector__logo">${artwork.logo}</div>
-      ${renderRatios(format, isActive ? movie.activeRatioIndex : -1)}
+      ${renderRatios(aspectRatios, isActive ? movie.activeRatioIndex : -1)}
     `
 
     button.addEventListener('click', () => onSelect(format.id))
@@ -200,16 +201,16 @@ export function populateFormatSelector({
 
 /** `currentRatioIndex` is -1 for formats that are not the active one */
 function renderRatios(
-  format: ExhibitionFormat,
+  aspectRatios: readonly AspectRatioId[],
   currentRatioIndex: number
 ): string {
-  if (format.aspectRatios.length <= 1) {
-    return `<span class="format-selector__ratio is-current">${format.aspectRatios[0] ?? 'TBD'}</span>`
+  if (aspectRatios.length <= 1) {
+    return `<span class="format-selector__ratio is-current">${aspectRatios[0] ?? 'TBD'}</span>`
   }
 
   return `
     <div class="format-selector__ratios">
-      ${format.aspectRatios
+      ${aspectRatios
         .map((ratio, index) => {
           const modifiers = [
             index > 0 ? 'format-selector__ratio--alternate' : '',

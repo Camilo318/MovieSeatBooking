@@ -451,6 +451,12 @@ body {
   height: 18px;
 }
 
+/* The display rules above would otherwise defeat the hidden attribute */
+.screen-nav[hidden],
+.screen__media[hidden] {
+  display: none;
+}
+
 .screen-nav:hover,
 .screen-nav:focus-visible {
   opacity: 1;
