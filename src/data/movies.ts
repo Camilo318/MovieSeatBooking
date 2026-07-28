@@ -9,7 +9,8 @@ import {
 } from './formats'
 import {
   SPIDER_MAN_BRAND_NEW_DAY_GALLERY,
-  THE_ODYSSEY_GALLERY
+  THE_ODYSSEY_GALLERY,
+  INTERSTELLAR_GALLERY
 } from './galleries'
 import type { FormatOption, Movie, Showing } from '@/types/domain'
 import { getAuditoriumForFormat } from './auditoriums'
@@ -65,7 +66,8 @@ export const MOVIE_CATALOG: readonly Movie[] = [
   {
     id: slugify('Interstellar'),
     title: 'Interstellar',
-    formatOptions: FILM_PRINT_RELEASE
+    formatOptions: FILM_PRINT_RELEASE,
+    stills: INTERSTELLAR_GALLERY
   },
   {
     id: slugify('Dunkirk'),
@@ -132,7 +134,10 @@ export const MOVIE_CATALOG: readonly Movie[] = [
   }
 ] as const
 
-export function makeShowingId(movieId: string, formatId: string): string {
+export function makeShowingId(
+  movieId: string,
+  formatId: string
+): string {
   return `${movieId}:${formatId}`
 }
 
@@ -149,10 +154,14 @@ function buildShowing(movie: Movie, option: FormatOption): Showing {
 }
 
 export function getShowingsForMovie(movie: Movie): Showing[] {
-  return movie.formatOptions.map(option => buildShowing(movie, option))
+  return movie.formatOptions.map(option =>
+    buildShowing(movie, option)
+  )
 }
 
-export function getShowingById(showingId: string): Showing | undefined {
+export function getShowingById(
+  showingId: string
+): Showing | undefined {
   for (const movie of MOVIE_CATALOG) {
     for (const option of movie.formatOptions) {
       if (makeShowingId(movie.id, option.format.id) === showingId) {

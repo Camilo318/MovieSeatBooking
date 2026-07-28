@@ -18,13 +18,42 @@
  */
 
 export const THE_ODYSSEY_GALLERY: readonly string[] = [
-  new URL('../assets/movies/the-odyssey/the-odyssey-01.png', import.meta.url).href,
-  new URL('../assets/movies/the-odyssey/the-odyssey-02.png', import.meta.url).href
+  new URL(
+    '../assets/movies/the-odyssey/the-odyssey-01.png',
+    import.meta.url
+  ).href,
+  new URL(
+    '../assets/movies/the-odyssey/the-odyssey-02.png',
+    import.meta.url
+  ).href
 ]
 
 export const SPIDER_MAN_BRAND_NEW_DAY_GALLERY: readonly string[] = [
   new URL(
     '../assets/movies/spider-man-brand-new-day/spider-man-brand-new-day-01.jpeg',
+    import.meta.url
+  ).href,
+  new URL(
+    '../assets/movies/spider-man-brand-new-day/spider-man-brand-new-day-02.JPG',
+    import.meta.url
+  ).href,
+  new URL(
+    '../assets/movies/spider-man-brand-new-day/spider-man-brand-new-day-03.JPG',
+    import.meta.url
+  ).href
+]
+
+export const INTERSTELLAR_GALLERY: readonly string[] = [
+  new URL(
+    '../assets/movies/interstellar/interstellar-01.JPG',
+    import.meta.url
+  ).href,
+  new URL(
+    '../assets/movies/interstellar/interstellar-02.PNG',
+    import.meta.url
+  ).href,
+  new URL(
+    '../assets/movies/interstellar/interstellar-03.JPG',
     import.meta.url
   ).href
 ]

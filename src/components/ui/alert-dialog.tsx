@@ -50,7 +50,7 @@ function AlertDialogContent({
   return createPortal(
     <>
       <div
-        className="fixed inset-0 z-50 bg-black/60"
+        className="fixed inset-0 z-50 bg-overlay"
         onClick={() => ctx.setOpen(false)}
         aria-hidden="true"
       />

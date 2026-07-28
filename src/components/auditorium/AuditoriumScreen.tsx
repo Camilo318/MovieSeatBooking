@@ -1,4 +1,7 @@
-import { ASPECT_RATIO_VALUES, type AspectRatioId } from '@/types/domain'
+import {
+  ASPECT_RATIO_VALUES,
+  type AspectRatioId
+} from '@/types/domain'
 
 type AuditoriumScreenProps = {
   aspectRatio?: AspectRatioId
@@ -20,14 +23,14 @@ export function AuditoriumScreen({
     : '1.85 / 1'
 
   return (
-    <div className="screen w-full overflow-hidden rounded-[4px] transition-[aspect-ratio,width] duration-350 ease-in-out"
-      style={{ aspectRatio: ratioValue }}
-    >
+    <div
+      className='screen w-full overflow-hidden rounded-sm transition-[aspect-ratio,width] duration-350 ease-in-out'
+      style={{ aspectRatio: ratioValue }}>
       {still ? (
         <img
           src={still}
           alt={`${movieTitle} still ${stillIndex + 1} of ${stillTotal}`}
-          className="block size-full object-cover"
+          className='block size-full object-cover'
         />
       ) : null}
     </div>

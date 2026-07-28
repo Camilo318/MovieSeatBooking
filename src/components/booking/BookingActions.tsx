@@ -46,13 +46,13 @@ export function BookingActions() {
       <div className="flex gap-3">
         <Button
           variant="outline"
-          className="flex-1 border-white/20 bg-transparent font-[Bebas_Neue,PT_Sans,sans-serif] text-base tracking-[0.14em] text-white/75 uppercase hover:border-tomato hover:text-tomato hover:bg-transparent"
+          className="flex-1 border-white/20 bg-transparent font-[Bebas_Neue,PT_Sans,sans-serif] text-base tracking-[0.14em] text-white/75 uppercase hover:border-danger hover:text-danger hover:bg-transparent"
           onClick={handleErase}
         >
           Erase
         </Button>
         <Button
-          className="flex-[2] bg-gradient-to-b from-[#f6c25c] to-[#dd9a2b] font-[Bebas_Neue,PT_Sans,sans-serif] text-base tracking-[0.14em] text-[#241a05] uppercase shadow-[0_6px_22px_rgba(240,178,62,0.28)] hover:-translate-y-px hover:from-[#f6c25c] hover:to-[#dd9a2b] hover:shadow-[0_10px_28px_rgba(240,178,62,0.4)]"
+          className="flex-[2] bg-linear-to-b from-marquee-from to-marquee-to font-[Bebas_Neue,PT_Sans,sans-serif] text-base tracking-[0.14em] text-marquee-foreground uppercase shadow-marquee hover:-translate-y-px hover:from-marquee-from hover:to-marquee-to hover:shadow-marquee-lg"
           onClick={handleBuyClick}
         >
           Buy Now

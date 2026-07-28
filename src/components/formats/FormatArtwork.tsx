@@ -26,7 +26,7 @@ export function Imax70Graphic() {
     <rect width="29.039" height="19.706" x="1" y="1" stroke="currentColor" strokeWidth="2" rx="1"></rect>
     <defs>
     <clipPath id={clipId}>
-    <rect width="96.9%" height="85.12%" fill="#fff" rx="2"></rect>
+    <rect width="96.9%" height="85.12%" fill="currentColor" rx="2"></rect>
     </clipPath>
     </defs>
     </svg>
@@ -86,7 +86,7 @@ export function SeventyMmGraphic() {
     <rect width="95%" height="88.9%" x="1" y="1" stroke="currentColor" strokeWidth="2" rx="1"></rect>
     <defs>
     <clipPath id={clipId}>
-    <rect width="100%" height="100%" fill="#fff" rx="2"></rect>
+    <rect width="100%" height="100%" fill="currentColor" rx="2"></rect>
     </clipPath>
     </defs>
     </svg>
@@ -125,7 +125,7 @@ export function ThirtyFiveMmGraphic() {
     <rect width="95%" height="86.7%" x="1" y="1" stroke="currentColor" strokeWidth="2" rx="1"></rect>
     <defs>
     <clipPath id={clipId}>
-    <rect width="100%" height="100%" fill="#fff" rx="2"></rect>
+    <rect width="100%" height="100%" fill="currentColor" rx="2"></rect>
     </clipPath>
     </defs>
     </svg>

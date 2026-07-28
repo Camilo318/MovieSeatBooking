@@ -37,7 +37,7 @@ export function FormatButton({
         'hover:-translate-y-0.5 hover:border-white/26 hover:text-white/92',
         'h-13 w-17 opacity-80',
         hasMultiple && 'w-22',
-        isActive && 'bg-[#2f5e8d] opacity-100',
+        isActive && 'bg-format-active opacity-100',
         'md:h-23.5 md:w-23.5 md:rounded md:p-2.5'
       )}>
       <div className='mb-0.5 hidden h-7 w-10 items-center justify-center md:mb-2 md:flex [&_svg]:block [&_svg]:h-auto [&_svg]:w-full'>

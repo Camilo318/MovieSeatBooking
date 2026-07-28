@@ -12,7 +12,7 @@ export function FormatStrip() {
   if (showings.length === 0) {
     return (
       <section
-        className='w-full border-b border-white/8 bg-[rgba(3,5,12,0.72)] px-4 py-4 backdrop-blur-[22px]'
+        className='w-full border-b border-white/8 bg-void/72 px-4 py-4 backdrop-blur-[22px]'
         aria-labelledby='format-strip-title'>
         <div className='mx-auto w-full max-w-295'>
           <p className='m-0 text-sm text-muted-foreground'>
@@ -25,7 +25,7 @@ export function FormatStrip() {
 
   return (
     <section
-      className='w-full border-b border-white/8 bg-[rgba(3,5,12,0.72)] py-4 pt-[1.1rem] pb-3 backdrop-blur-[22px]'
+      className='w-full border-b border-white/8 bg-void/72 py-4 pt-[1.1rem] pb-3 backdrop-blur-[22px]'
       aria-labelledby='format-strip-title'>
       <div className='mx-auto w-full max-w-295 px-2'>
         <p

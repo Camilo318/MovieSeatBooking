@@ -1,3 +1,4 @@
+import { ChevronDownIcon } from 'lucide-react'
 import { getLowestPrice, MOVIE_CATALOG } from '@/data/movies'
 import {
   useBookingActions,
@@ -16,23 +17,24 @@ export function MoviePicker() {
       >
         Now showing
       </label>
-      <select
-        id="movie"
-        value={currentMovie.id}
-        onChange={e => selectMovie(e.target.value)}
-        className="w-full cursor-pointer appearance-none rounded-md border border-white/14 bg-white/5 px-4 py-3 pr-10 text-sm text-white outline-none transition-colors hover:border-accent-bright focus:border-accent-bright"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%238cb8ff' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E")`,
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'right 1rem center'
-        }}
-      >
-        {MOVIE_CATALOG.map(movie => (
-          <option key={movie.id} value={movie.id} className="bg-panel-strong text-white">
-            {movie.title} (from ${getLowestPrice(movie)})
-          </option>
-        ))}
-      </select>
+      <div className="relative">
+        <select
+          id="movie"
+          value={currentMovie.id}
+          onChange={e => selectMovie(e.target.value)}
+          className="w-full cursor-pointer appearance-none rounded-md border border-white/14 bg-input px-4 py-3 pr-10 text-sm text-foreground outline-none transition-colors hover:border-accent-bright focus:border-accent-bright"
+        >
+          {MOVIE_CATALOG.map(movie => (
+            <option key={movie.id} value={movie.id} className="bg-panel-strong text-foreground">
+              {movie.title} (from ${getLowestPrice(movie)})
+            </option>
+          ))}
+        </select>
+        <ChevronDownIcon
+          aria-hidden
+          className="pointer-events-none absolute top-1/2 right-4 size-3.5 -translate-y-1/2 text-accent-bright"
+        />
+      </div>
     </div>
   )
 }
