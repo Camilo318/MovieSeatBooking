@@ -1,4 +1,4 @@
-import type { ExhibitionFormat } from '../types/formats'
+import type { ExhibitionFormat } from '@/types/domain'
 
 /**
  * Exhibition formats describe the presentation itself: its branding, its

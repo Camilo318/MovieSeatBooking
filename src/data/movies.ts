@@ -11,21 +11,17 @@ import {
   SPIDER_MAN_BRAND_NEW_DAY_GALLERY,
   THE_ODYSSEY_GALLERY
 } from './galleries'
-import type { MoviePresentation } from '../types/formats'
+import type { FormatOption, Movie, Showing } from '@/types/domain'
+import { getAuditoriumForFormat } from './auditoriums'
 
-export interface MovieDefinition {
-  name: string
-  /** Formats this title played in, each with the ratios it was framed at */
-  presentations: readonly MoviePresentation[]
-  /** Stills shown on the auditorium screen, see `galleries.ts` */
-  media?: readonly string[]
+function slugify(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '')
 }
 
-/**
- * Shot on film and released on prints, where every gauge carries its own native
- * ratio and the digital release plays scope.
- */
-const FILM_PRINT_RELEASE: readonly MoviePresentation[] = [
+const FILM_PRINT_RELEASE: readonly FormatOption[] = [
   { format: IMAX_70MM_FORMAT, aspectRatios: ['1.43:1'] },
   { format: IMAX_FORMAT, aspectRatios: ['1.90:1'] },
   { format: FORMAT_70MM, aspectRatios: ['2.20:1'] },
@@ -33,10 +29,11 @@ const FILM_PRINT_RELEASE: readonly MoviePresentation[] = [
   { format: DIGITAL_FORMAT, aspectRatios: ['2.39:1'] }
 ]
 
-export const MOVIE_CATALOG: readonly MovieDefinition[] = [
+export const MOVIE_CATALOG: readonly Movie[] = [
   {
-    name: 'The Odyssey',
-    presentations: [
+    id: slugify('The Odyssey'),
+    title: 'The Odyssey',
+    formatOptions: [
       { format: IMAX_70MM_FORMAT, aspectRatios: ['1.43:1'] },
       { format: IMAX_FORMAT, aspectRatios: ['1.90:1'] },
       { format: FORMAT_70MM, aspectRatios: ['2.20:1'] },
@@ -50,12 +47,12 @@ export const MOVIE_CATALOG: readonly MovieDefinition[] = [
         aspectRatios: ['1.85:1', '2.39:1']
       }
     ],
-    media: THE_ODYSSEY_GALLERY
+    stills: THE_ODYSSEY_GALLERY
   },
   {
-    // Everything outside IMAX was framed at 2.20:1
-    name: 'Oppenheimer',
-    presentations: [
+    id: slugify('Oppenheimer'),
+    title: 'Oppenheimer',
+    formatOptions: [
       { format: IMAX_70MM_FORMAT, aspectRatios: ['1.43:1'] },
       { format: IMAX_FORMAT, aspectRatios: ['1.90:1'] },
       { format: FORMAT_70MM, aspectRatios: ['2.20:1'] },
@@ -66,16 +63,19 @@ export const MOVIE_CATALOG: readonly MovieDefinition[] = [
     ]
   },
   {
-    name: 'Interstellar',
-    presentations: FILM_PRINT_RELEASE
+    id: slugify('Interstellar'),
+    title: 'Interstellar',
+    formatOptions: FILM_PRINT_RELEASE
   },
   {
-    name: 'Dunkirk',
-    presentations: FILM_PRINT_RELEASE
+    id: slugify('Dunkirk'),
+    title: 'Dunkirk',
+    formatOptions: FILM_PRINT_RELEASE
   },
   {
-    name: 'Sinners',
-    presentations: [
+    id: slugify('Sinners'),
+    title: 'Sinners',
+    formatOptions: [
       { format: IMAX_70MM_FORMAT, aspectRatios: ['1.43:1'] },
       { format: IMAX_FORMAT, aspectRatios: ['1.90:1'] },
       { format: FORMAT_70MM, aspectRatios: ['2.20:1'] },
@@ -86,8 +86,9 @@ export const MOVIE_CATALOG: readonly MovieDefinition[] = [
     ]
   },
   {
-    name: 'The Dark Knight',
-    presentations: [
+    id: slugify('The Dark Knight'),
+    title: 'The Dark Knight',
+    formatOptions: [
       { format: IMAX_70MM_FORMAT, aspectRatios: ['1.43:1'] },
       { format: IMAX_FORMAT, aspectRatios: ['1.90:1'] },
       { format: FORMAT_35MM, aspectRatios: ['2.39:1'] },
@@ -95,9 +96,9 @@ export const MOVIE_CATALOG: readonly MovieDefinition[] = [
     ]
   },
   {
-    // Shot at 1.90:1 but without a local IMAX engagement
-    name: 'Spider-Man: Brand New Day',
-    presentations: [
+    id: slugify('Spider-Man: Brand New Day'),
+    title: 'Spider-Man: Brand New Day',
+    formatOptions: [
       {
         format: DOLBY_CINEMA_FORMAT,
         aspectRatios: ['1.90:1', '2.39:1']
@@ -108,11 +109,12 @@ export const MOVIE_CATALOG: readonly MovieDefinition[] = [
       },
       { format: DIGITAL_FORMAT, aspectRatios: ['1.90:1', '2.39:1'] }
     ],
-    media: SPIDER_MAN_BRAND_NEW_DAY_GALLERY
+    stills: SPIDER_MAN_BRAND_NEW_DAY_GALLERY
   },
   {
-    name: 'Avengers: End Game',
-    presentations: [
+    id: slugify('Avengers: End Game'),
+    title: 'Avengers: End Game',
+    formatOptions: [
       { format: IMAX_FORMAT, aspectRatios: ['1.90:1'] },
       { format: DOLBY_CINEMA_FORMAT, aspectRatios: ['2.39:1'] },
       { format: PREMIUM_LARGE_FORMAT, aspectRatios: ['2.39:1'] },
@@ -120,12 +122,50 @@ export const MOVIE_CATALOG: readonly MovieDefinition[] = [
     ]
   },
   {
-    // Exclusively 1.85:1, wider auditoriums pillarbox it
-    name: 'Toy Story 5',
-    presentations: [
+    id: slugify('Toy Story 5'),
+    title: 'Toy Story 5',
+    formatOptions: [
       { format: DOLBY_CINEMA_FORMAT, aspectRatios: ['1.85:1'] },
       { format: PREMIUM_LARGE_FORMAT, aspectRatios: ['1.85:1'] },
       { format: DIGITAL_FORMAT, aspectRatios: ['1.85:1'] }
     ]
   }
 ] as const
+
+export function makeShowingId(movieId: string, formatId: string): string {
+  return `${movieId}:${formatId}`
+}
+
+function buildShowing(movie: Movie, option: FormatOption): Showing {
+  return {
+    id: makeShowingId(movie.id, option.format.id),
+    movieId: movie.id,
+    movieTitle: movie.title,
+    format: option.format,
+    aspectRatios: option.aspectRatios,
+    auditorium: getAuditoriumForFormat(option.format.id),
+    stills: movie.stills ?? []
+  }
+}
+
+export function getShowingsForMovie(movie: Movie): Showing[] {
+  return movie.formatOptions.map(option => buildShowing(movie, option))
+}
+
+export function getShowingById(showingId: string): Showing | undefined {
+  for (const movie of MOVIE_CATALOG) {
+    for (const option of movie.formatOptions) {
+      if (makeShowingId(movie.id, option.format.id) === showingId) {
+        return buildShowing(movie, option)
+      }
+    }
+  }
+  return undefined
+}
+
+export function getLowestPrice(movie: Movie): number {
+  return movie.formatOptions.reduce(
+    (cheapest, { format }) => Math.min(cheapest, format.price),
+    Infinity
+  )
+}
