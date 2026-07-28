@@ -141,19 +141,16 @@ const FORMAT_ARTWORK: Record<string, FormatArtwork> = {
   }
 }
 
-type PopulateFormatSelectorOptions = {
-  container: HTMLElement
-  movie: Movie
-  activeFormatId?: string
-  onSelect: (formatId: string) => void
+type FormatSelectorCallbacks = {
+  onPresentationChange: (movie: Movie) => void
 }
 
-export function populateFormatSelector({
-  container,
-  movie,
-  activeFormatId,
-  onSelect
-}: PopulateFormatSelectorOptions): void {
+/** Builds the format buttons once per movie and wires click handlers. */
+export function renderFormatSelector(
+  container: HTMLElement,
+  movie: Movie,
+  callbacks: FormatSelectorCallbacks
+): void {
   container.innerHTML = ''
 
   if (!movie.presentations.length) {
@@ -165,45 +162,72 @@ export function populateFormatSelector({
     return
   }
 
-  const currentActivePresentation =
-    movie.getPresentation(activeFormatId ?? '') ??
-    movie.presentations[0]
-
   movie.presentations.forEach(({ format, aspectRatios }) => {
     const button = document.createElement('button')
     const artwork = FORMAT_ARTWORK[format.id] ?? DEFAULT_ARTWORK
-    const isActive = format.id === currentActivePresentation.format.id
 
     button.type = 'button'
     button.className = 'format-selector__button'
+    button.dataset.formatId = format.id
 
     if (aspectRatios.length > 1) {
       button.classList.add('format-selector__button--multiple')
     }
 
-    if (isActive) {
-      button.classList.add('is-active')
-    }
-
     button.setAttribute('role', 'listitem')
-    button.setAttribute('aria-pressed', String(isActive))
     button.title = format.info ?? format.name
     button.innerHTML = `
       <div class="format-selector__graphic">${artwork.graphic}</div>
       <div class="format-selector__logo">${artwork.logo}</div>
-      ${renderRatios(aspectRatios, isActive ? movie.activeRatioIndex : -1)}
+      ${buildRatioMarkup(aspectRatios)}
     `
 
-    button.addEventListener('click', () => onSelect(format.id))
+    button.addEventListener('click', () => {
+      handleFormatSelection(container, movie, format.id, callbacks)
+    })
+
     container.append(button)
+  })
+
+  updateFormatSelectorState(container, movie)
+}
+
+/** Updates active format and ratio highlights without rebuilding buttons. */
+export function updateFormatSelectorState(
+  container: HTMLElement,
+  movie: Movie
+): void {
+  container.querySelectorAll<HTMLButtonElement>('.format-selector__button').forEach(button => {
+    const formatId = button.dataset.formatId
+    if (!formatId) {
+      return
+    }
+
+    const isActive = formatId === movie.activeFormatId
+    button.classList.toggle('is-active', isActive)
+    button.setAttribute('aria-pressed', String(isActive))
+
+    button.querySelectorAll('.format-selector__ratio').forEach((ratioEl, index) => {
+      ratioEl.classList.toggle(
+        'is-current',
+        isActive && index === movie.activeRatioIndex
+      )
+    })
   })
 }
 
-/** `currentRatioIndex` is -1 for formats that are not the active one */
-function renderRatios(
-  aspectRatios: readonly AspectRatioId[],
-  currentRatioIndex: number
-): string {
+function handleFormatSelection(
+  container: HTMLElement,
+  movie: Movie,
+  formatId: string,
+  callbacks: FormatSelectorCallbacks
+): void {
+  movie.selectFormat(formatId)
+  updateFormatSelectorState(container, movie)
+  callbacks.onPresentationChange(movie)
+}
+
+function buildRatioMarkup(aspectRatios: readonly AspectRatioId[]): string {
   if (aspectRatios.length <= 1) {
     return `<span class="format-selector__ratio is-current">${aspectRatios[0] ?? 'TBD'}</span>`
   }
@@ -212,13 +236,7 @@ function renderRatios(
     <div class="format-selector__ratios">
       ${aspectRatios
         .map((ratio, index) => {
-          const modifiers = [
-            index > 0 ? 'format-selector__ratio--alternate' : '',
-            index === currentRatioIndex ? 'is-current' : ''
-          ]
-            .filter(Boolean)
-            .join(' ')
-
+          const modifiers = index > 0 ? 'format-selector__ratio--alternate' : ''
           return `<span class="format-selector__ratio ${modifiers}">${ratio}</span>`
         })
         .join('')}

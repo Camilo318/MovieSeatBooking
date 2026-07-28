@@ -1,6 +1,6 @@
 import { Cinema } from './Cinema';
 import { MOVIE_CATALOG } from './data/movies';
-import { populateFormatSelector } from './formatSelector';
+import { renderFormatSelector } from './formatSelector';
 import { Movie } from './Movie';
 import { aspectRatioClassName } from './types/formats';
 import type { AspectRatioId } from './types/formats';
@@ -71,36 +71,29 @@ function openCinema(): void {
 
   const cinema = new Cinema(movies, seats);
 
+  const syncPresentationView = (movie: Movie): void => {
+    applyScreenRatio(screen, movie.activeAspectRatio);
+    renderScreenMedia(movie);
+
+    const activeFormat = movie.activeFormat;
+    activeFormatLabel.textContent = activeFormat?.name ?? 'Digital';
+    ticketPriceLabel.textContent = `$${movie.price} / ticket`;
+  };
+
+  const renderFormatsForMovie = (movie: Movie): void => {
+    renderFormatSelector(formatSelector, movie, {
+      onPresentationChange: (updatedMovie) => {
+        syncPresentationView(updatedMovie);
+        cinema.updateSelection(updatedMovie.price);
+      },
+    });
+    syncPresentationView(movie);
+  };
+
   const syncCurrentMovieView = (): void => {
     const movie = movies[movieSelect.selectedIndex];
     cinema.showSeats(movieSelect.selectedIndex);
     renderFormatsForMovie(movie);
-  };
-
-  const renderFormatsForMovie = (
-    movie: Movie,
-    nextActiveFormatId?: string,
-  ): void => {
-    if (nextActiveFormatId) {
-      movie.selectFormat(nextActiveFormatId);
-    }
-
-    const activeFormat = movie.activeFormat;
-    applyScreenRatio(screen, movie.activeAspectRatio);
-    renderScreenMedia(movie);
-
-    activeFormatLabel.textContent = activeFormat?.name ?? 'Digital';
-    ticketPriceLabel.textContent = `$${movie.price} / ticket`;
-
-    populateFormatSelector({
-      container: formatSelector,
-      movie,
-      activeFormatId: activeFormat?.id,
-      onSelect: (formatId) => {
-        renderFormatsForMovie(movie, formatId);
-        cinema.updateSelection(movie.price);
-      },
-    });
   };
 
   function renderScreenMedia(movie: Movie): void {
