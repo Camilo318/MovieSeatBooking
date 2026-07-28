@@ -8,10 +8,10 @@ import {
   PREMIUM_LARGE_FORMAT
 } from './formats'
 import {
-  SPIDER_MAN_BRAND_NEW_DAY_GALLERY,
-  THE_ODYSSEY_GALLERY,
-  INTERSTELLAR_GALLERY
-} from './galleries'
+  SPIDER_MAN_BRAND_NEW_DAY_STILLS,
+  THE_ODYSSEY_STILLS,
+  INTERSTELLAR_STILLS
+} from './stills'
 import type { FormatOption, Movie, Showing } from '@/types/domain'
 import { getAuditoriumForFormat } from './auditoriums'
 
@@ -48,7 +48,7 @@ export const MOVIE_CATALOG: readonly Movie[] = [
         aspectRatios: ['1.85:1', '2.39:1']
       }
     ],
-    stills: THE_ODYSSEY_GALLERY
+    stills: THE_ODYSSEY_STILLS
   },
   {
     id: slugify('Oppenheimer'),
@@ -67,7 +67,7 @@ export const MOVIE_CATALOG: readonly Movie[] = [
     id: slugify('Interstellar'),
     title: 'Interstellar',
     formatOptions: FILM_PRINT_RELEASE,
-    stills: INTERSTELLAR_GALLERY
+    stills: INTERSTELLAR_STILLS
   },
   {
     id: slugify('Dunkirk'),
@@ -111,7 +111,7 @@ export const MOVIE_CATALOG: readonly Movie[] = [
       },
       { format: DIGITAL_FORMAT, aspectRatios: ['1.90:1', '2.39:1'] }
     ],
-    stills: SPIDER_MAN_BRAND_NEW_DAY_GALLERY
+    stills: SPIDER_MAN_BRAND_NEW_DAY_STILLS
   },
   {
     id: slugify('Avengers: End Game'),

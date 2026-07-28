@@ -58,6 +58,7 @@ export interface Movie {
   id: string
   title: string
   formatOptions: readonly FormatOption[]
+  /** Cloudinary delivery URLs for auditorium stills, in gallery order. */
   stills?: readonly string[]
 }
 
