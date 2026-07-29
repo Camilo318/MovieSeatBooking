@@ -35,7 +35,7 @@ export function FormatButton({
       className={cn(
         'flex shrink-0 snap-start cursor-pointer flex-col items-center justify-start rounded-lg border border-border bg-white/3 p-2 text-white/78 transition-[background-color,border-color,color,opacity,scale] duration-150',
         'hover:border-white/26 hover:text-white/92 motion-safe:active:scale-[0.97]',
-        'h-13 w-17 opacity-80',
+        'h-13 w-17 opacity-80 focus-visible:ring-ring/50 focus-visible:ring-2 outline-none',
         hasMultiple && 'w-22',
         isActive && 'bg-format-active opacity-100',
         'md:h-23.5 md:w-23.5 md:rounded md:p-2.5'
