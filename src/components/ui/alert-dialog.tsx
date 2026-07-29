@@ -8,9 +8,8 @@ type AlertDialogContextValue = {
   setOpen: (open: boolean) => void
 }
 
-const AlertDialogContext = React.createContext<AlertDialogContextValue | null>(
-  null
-)
+const AlertDialogContext =
+  React.createContext<AlertDialogContextValue | null>(null)
 
 function AlertDialog({
   open,
@@ -34,7 +33,8 @@ function AlertDialog({
   )
 
   return (
-    <AlertDialogContext.Provider value={{ open: currentOpen, setOpen }}>
+    <AlertDialogContext.Provider
+      value={{ open: currentOpen, setOpen }}>
       {children}
     </AlertDialogContext.Provider>
   )
@@ -50,18 +50,17 @@ function AlertDialogContent({
   return createPortal(
     <>
       <div
-        className="fixed inset-0 z-50 bg-overlay"
+        className='fixed inset-0 z-50 bg-overlay'
         onClick={() => ctx.setOpen(false)}
-        aria-hidden="true"
+        aria-hidden='true'
       />
       <div
-        role="alertdialog"
-        aria-modal="true"
+        role='alertdialog'
+        aria-modal='true'
         className={cn(
           'fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border border-border bg-background p-6 shadow-lg sm:max-w-lg',
           className
-        )}
-      >
+        )}>
         {children}
       </div>
     </>,
@@ -75,7 +74,10 @@ function AlertDialogHeader({
 }: React.ComponentProps<'div'>) {
   return (
     <div
-      className={cn('flex flex-col gap-2 text-center sm:text-left', className)}
+      className={cn(
+        'flex flex-col gap-2 text-center sm:text-left',
+        className
+      )}
       {...props}
     />
   )
@@ -101,7 +103,10 @@ function AlertDialogTitle({
   ...props
 }: React.ComponentProps<'h2'>) {
   return (
-    <h2 className={cn('text-lg font-semibold', className)} {...props} />
+    <h2
+      className={cn('text-lg font-semibold', className)}
+      {...props}
+    />
   )
 }
 
@@ -110,7 +115,10 @@ function AlertDialogDescription({
   ...props
 }: React.ComponentProps<'p'>) {
   return (
-    <p className={cn('text-sm text-muted-foreground', className)} {...props} />
+    <p
+      className={cn('text-sm text-muted-foreground', className)}
+      {...props}
+    />
   )
 }
 
@@ -121,7 +129,7 @@ function AlertDialogAction({
 }: React.ComponentProps<'button'>) {
   return (
     <button
-      type="button"
+      type='button'
       className={cn(buttonVariants(), className)}
       onClick={onClick}
       {...props}
@@ -137,8 +145,15 @@ function AlertDialogCancel({
 
   return (
     <button
-      type="button"
-      className={cn(buttonVariants({ variant: 'outline' }), className)}
+      type='button'
+      className={cn(
+        buttonVariants({
+          variant: 'outline',
+          className:
+            'hover:border-danger hover:text-danger hover:bg-transparent'
+        }),
+        className
+      )}
       onClick={() => ctx?.setOpen(false)}
       {...props}
     />
