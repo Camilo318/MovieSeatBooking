@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   /* Core palette */
@@ -63,10 +63,6 @@
     color-mix(in srgb, var(--color-marquee) 28%, transparent);
   --shadow-marquee-lg: 0 10px 28px
     color-mix(in srgb, var(--color-marquee) 40%, transparent);
-  --shadow-screen:
-    0 0 0 1px rgb(255 255 255 / 0.16),
-    0 0 45px color-mix(in srgb, var(--color-screen-glow) 22%, transparent),
-    0 26px 90px color-mix(in srgb, var(--color-screen-bloom) 16%, transparent);
 
   --font-sans: 'PT Sans', sans-serif;
   --font-display: 'Bebas Neue', 'PT Sans', sans-serif;
@@ -74,6 +70,11 @@
   --radius-sm: 0.25rem;
   --radius-md: 0.375rem;
   --radius-lg: 0.5rem;
+
+  /* Motion */
+  --ease-out-quad: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out-cubic: cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 
 @layer base {
@@ -111,22 +112,11 @@
     var(--color-screen-mid) 55%,
     var(--color-screen-edge) 100%
   );
-  box-shadow: var(--shadow-screen);
 }
 
-/* Auditorium room atmosphere */
+/* Auditorium room */
 .auditorium {
-  background:
-    radial-gradient(
-      ellipse 90% 45% at 50% 12%,
-      color-mix(in srgb, var(--color-atmosphere) 13%, transparent),
-      transparent 70%
-    ),
-    linear-gradient(
-      180deg,
-      var(--color-room) 0%,
-      var(--color-room-deep) 100%
-    );
+  background: var(--color-room);
 }
 
 /* Seat legend samples (non-interactive) */
@@ -162,10 +152,10 @@
 }
 
 /* Hide scrollbar in format strip on webkit */
-[data-slot="scroll-area-viewport"] {
+[data-slot='scroll-area-viewport'] {
   scrollbar-width: none;
 }
 
-[data-slot="scroll-area-viewport"]::-webkit-scrollbar {
+[data-slot='scroll-area-viewport']::-webkit-scrollbar {
   display: none;
 }

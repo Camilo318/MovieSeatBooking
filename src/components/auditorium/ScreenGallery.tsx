@@ -12,16 +12,24 @@ export function ScreenGallery() {
     currentMovie,
     currentStill,
     activeAspectRatio,
-    hasGallery
+    hasGallery,
+    showings
   } = useBookingDerived()
   const { stepStill } = useBookingActions()
   const state = useBookingState()
   const stillIndex = state.stillIndexByMovie[currentMovie.id] ?? 0
   const stillTotal = currentMovie.stills?.length ?? 0
 
+  const ratios = showings.flatMap(s => s.aspectRatios)
+  const frameRatio = ratios.length
+    ? Math.min(...ratios.map(r => parseFloat(r)))
+    : 1.85
+
   return (
     <div className='auditorium__stage flex w-full flex-col items-center'>
-      <div className='screen-frame relative mx-auto w-full max-w-170 lg:max-w-190'>
+      <div
+        className='screen-frame relative mx-auto flex w-full max-w-170 items-center justify-center lg:max-w-190'
+        style={{ aspectRatio: `${frameRatio} / 1` }}>
         <AuditoriumScreen
           aspectRatio={activeAspectRatio}
           still={currentStill}

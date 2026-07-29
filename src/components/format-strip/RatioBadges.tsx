@@ -31,7 +31,7 @@ export function RatioBadges({
         <span
           key={ratio + index}
           className={cn(
-            'text-xs font-normal leading-none transition-colors duration-200',
+            'text-xs font-normal leading-none transition-colors duration-150',
             index > 0 && 'text-white/72',
             isActive && index !== activeRatioIndex && 'text-white/40',
             isActive && index === activeRatioIndex && 'text-white'

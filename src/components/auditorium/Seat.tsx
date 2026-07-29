@@ -17,7 +17,7 @@ export function Seat({ status, hasAisleAfter, onToggle }: SeatProps) {
       data-aisle={hasAisleAfter ? 'true' : undefined}
       onClick={onToggle}
       className={cn(
-        'seat m-0.5 h-4 w-5 cursor-pointer rounded-t-[20px] border border-seat-border transition-all duration-200 md:m-1 md:h-5 md:w-6 md:rounded-t-[25px]',
+        'seat m-0.5 h-4 w-5 cursor-pointer rounded-t-[20px] border border-seat-border transition-[background-color,box-shadow] duration-150 md:m-1 md:h-5 md:w-6 md:rounded-t-[25px]',
         status === 'available' &&
           'bg-seat-available hover:bg-seat-hover',
         status === 'selected' &&

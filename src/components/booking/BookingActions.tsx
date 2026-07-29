@@ -54,7 +54,7 @@ export function BookingActions() {
           Erase
         </Button>
         <Button
-          className='flex-2 bg-linear-to-b from-marquee-from to-marquee-to font-[Bebas_Neue,PT_Sans,sans-serif] text-base tracking-[0.14em] text-marquee-foreground uppercase shadow-marquee hover:-translate-y-px hover:from-marquee-from hover:to-marquee-to hover:shadow-marquee-lg'
+          className='flex-2 bg-linear-to-b from-marquee-from to-marquee-to font-[Bebas_Neue,PT_Sans,sans-serif] text-base tracking-[0.14em] text-marquee-foreground uppercase shadow-marquee hover:from-marquee-from hover:to-marquee-to hover:shadow-marquee-lg'
           onClick={handleBuyClick}>
           Buy Now
         </Button>
