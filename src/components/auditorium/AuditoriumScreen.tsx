@@ -24,7 +24,7 @@ export function AuditoriumScreen({
 
   return (
     <div
-      className='screen w-full overflow-hidden rounded-sm transition-[aspect-ratio,width] duration-350 ease-in-out'
+      className='screen w-full overflow-hidden rounded-sm transition-[aspect-ratio] duration-350 ease-in-out-cubic motion-reduce:transition-none'
       style={{ aspectRatio: ratioValue }}>
       {still ? (
         <img

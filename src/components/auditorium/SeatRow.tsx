@@ -23,8 +23,8 @@ export function SeatRow({
   const aisleSet = new Set(auditorium.aisleAfter)
 
   return (
-    <div className='row flex items-center justify-center transform-[rotateX(26deg)]'>
-      <span className='w-[1.4rem] select-none text-center font-[Bebas_Neue,PT_Sans,sans-serif] text-[0.7rem] tracking-wide text-white/28 md:w-8 md:text-[0.8rem]'>
+    <div className='row flex items-center justify-center'>
+      <span className='w-4  bg-room-deep shrink-0 select-none text-center font-[Bebas_Neue,PT_Sans,sans-serif] text-sm tracking-wide text-white/28 md:w-8 md:text-base sticky left-0'>
         {row}
       </span>
       {seats.map(seat => (
@@ -35,7 +35,7 @@ export function SeatRow({
           onToggle={() => onToggleSeat(seat.id)}
         />
       ))}
-      <span className='w-[1.4rem] select-none text-center font-[Bebas_Neue,PT_Sans,sans-serif] text-[0.7rem] tracking-wide text-white/28 md:w-8 md:text-[0.8rem]'>
+      <span className='w-4 shrink-0 select-none text-center font-[Bebas_Neue,PT_Sans,sans-serif] text-sm tracking-wide text-white/28 md:w-8 md:text-base'>
         {row}
       </span>
     </div>

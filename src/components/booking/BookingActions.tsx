@@ -1,6 +1,9 @@
 import { useState } from 'react'
 import { toast } from 'sonner'
-import { useBookingActions, useBookingDerived } from '@/state/BookingProvider'
+import {
+  useBookingActions,
+  useBookingDerived
+} from '@/state/BookingProvider'
 import { Button } from '@/components/ui/button'
 import {
   AlertDialog,
@@ -43,18 +46,16 @@ export function BookingActions() {
 
   return (
     <>
-      <div className="flex gap-3">
+      <div className='flex gap-3'>
         <Button
-          variant="outline"
-          className="flex-1 border-white/20 bg-transparent font-[Bebas_Neue,PT_Sans,sans-serif] text-base tracking-[0.14em] text-white/75 uppercase hover:border-danger hover:text-danger hover:bg-transparent"
-          onClick={handleErase}
-        >
+          variant='outline'
+          className='flex-1 border-white/20 bg-transparent font-[Bebas_Neue,PT_Sans,sans-serif] text-base tracking-[0.14em] text-white/75 uppercase hover:border-danger hover:text-danger hover:bg-transparent'
+          onClick={handleErase}>
           Erase
         </Button>
         <Button
-          className="flex-[2] bg-linear-to-b from-marquee-from to-marquee-to font-[Bebas_Neue,PT_Sans,sans-serif] text-base tracking-[0.14em] text-marquee-foreground uppercase shadow-marquee hover:-translate-y-px hover:from-marquee-from hover:to-marquee-to hover:shadow-marquee-lg"
-          onClick={handleBuyClick}
-        >
+          className='flex-2 bg-linear-to-b from-marquee-from to-marquee-to font-[Bebas_Neue,PT_Sans,sans-serif] text-base tracking-[0.14em] text-marquee-foreground uppercase shadow-marquee hover:from-marquee-from hover:to-marquee-to hover:shadow-marquee-lg'
+          onClick={handleBuyClick}>
           Buy Now
         </Button>
       </div>
@@ -62,14 +63,18 @@ export function BookingActions() {
       <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Confirm Movie And Payment</AlertDialogTitle>
-            <AlertDialogDescription className="whitespace-pre-line">
+            <AlertDialogTitle>
+              Confirm Movie And Payment
+            </AlertDialogTitle>
+            <AlertDialogDescription className='whitespace-pre-line'>
               {`${currentMovie.title}\nSpots: ${selectedCount}\nTotal Payment: ${total}`}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleConfirm}>Confirm</AlertDialogAction>
+            <AlertDialogAction onClick={handleConfirm}>
+              Confirm
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

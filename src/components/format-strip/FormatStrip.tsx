@@ -33,9 +33,9 @@ export function FormatStrip() {
           className='mb-3 text-[0.8rem] tracking-[0.24em] text-muted-foreground uppercase'>
           Available Formats
         </p>
-        <ScrollArea className='w-full pt-1 scrollbar-none'>
+        <ScrollArea className='w-full scrollbar-none'>
           <div
-            className='flex w-fit items-center justify-start gap-2 px-6 sm:mx-auto'
+            className='flex w-fit items-center justify-start gap-2 px-6 sm:mx-auto p-1'
             role='list'
             aria-label='Movie format selector'>
             {showings.map(showing => (
