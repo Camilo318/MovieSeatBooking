@@ -1,0 +1,171 @@
+@import "tailwindcss";
+
+@theme {
+  /* Core palette */
+  --color-bg: #0f111a;
+  --color-panel: #171b28;
+  --color-panel-strong: #1c2233;
+  --color-panel-from: #151a28;
+  --color-panel-to: #0a0c14;
+  --color-border: rgb(255 255 255 / 0.12);
+  --color-muted-foreground: rgb(255 255 255 / 0.66);
+  --color-accent: #3d69a8;
+  --color-accent-bright: #8cb8ff;
+  --color-format-active: #2f5e8d;
+  --color-marquee: #f0b23e;
+  --color-marquee-from: #f6c25c;
+  --color-marquee-to: #dd9a2b;
+  --color-marquee-foreground: #241a05;
+  --color-danger: #ff6347;
+  --color-seat-available: #353c50;
+  --color-seat-hover: #4d566f;
+  --color-seat-selected: #6feaf6;
+  --color-seat-occupied: #14161f;
+  --color-seat-border: rgb(0 0 0 / 0.55);
+
+  /* Atmosphere / surfaces */
+  --color-void: #03050c;
+  --color-void-deep: #04050a;
+  --color-void-mid: #070910;
+  --color-void-floor: #0a0c14;
+  --color-room: #05060c;
+  --color-room-deep: #030409;
+  --color-nav: #06080e;
+  --color-overlay: rgb(0 0 0 / 0.6);
+  --color-body-glow: #40588a;
+  --color-atmosphere: #94b2e8;
+  --color-screen-lit: #f4f7fd;
+  --color-screen-mid: #ccd5e6;
+  --color-screen-edge: #97a2ba;
+  --color-screen-glow: #9ebfff;
+  --color-screen-bloom: #789ce0;
+
+  /* shadcn aliases */
+  --color-background: var(--color-bg);
+  --color-foreground: #ffffff;
+  --color-card: var(--color-panel);
+  --color-card-foreground: var(--color-foreground);
+  --color-popover: var(--color-panel-strong);
+  --color-popover-foreground: var(--color-foreground);
+  --color-primary: var(--color-accent);
+  --color-primary-foreground: var(--color-foreground);
+  --color-secondary: var(--color-panel);
+  --color-secondary-foreground: var(--color-foreground);
+  --color-input: rgb(255 255 255 / 0.05);
+  --color-ring: var(--color-accent-bright);
+  --color-destructive: #ef4444;
+
+  /* Shadows */
+  --shadow-seat-selected: 0 0 10px
+    color-mix(in srgb, var(--color-seat-selected) 55%, transparent);
+  --shadow-panel: 0 20px 50px rgb(0 0 0 / 0.45);
+  --shadow-marquee: 0 6px 22px
+    color-mix(in srgb, var(--color-marquee) 28%, transparent);
+  --shadow-marquee-lg: 0 10px 28px
+    color-mix(in srgb, var(--color-marquee) 40%, transparent);
+  --shadow-screen:
+    0 0 0 1px rgb(255 255 255 / 0.16),
+    0 0 45px color-mix(in srgb, var(--color-screen-glow) 22%, transparent),
+    0 26px 90px color-mix(in srgb, var(--color-screen-bloom) 16%, transparent);
+
+  --font-sans: 'PT Sans', sans-serif;
+  --font-display: 'Bebas Neue', 'PT Sans', sans-serif;
+
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: var(--font-sans);
+    color: var(--color-foreground);
+    background:
+      radial-gradient(
+        circle at 50% -10%,
+        color-mix(in srgb, var(--color-body-glow) 14%, transparent),
+        transparent 34%
+      ),
+      linear-gradient(
+        180deg,
+        var(--color-void-deep) 0%,
+        var(--color-void-mid) 52%,
+        var(--color-void-floor) 100%
+      );
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+/* Auditorium screen glow */
+.screen {
+  background: radial-gradient(
+    ellipse at 50% 40%,
+    var(--color-screen-lit) 0%,
+    var(--color-screen-mid) 55%,
+    var(--color-screen-edge) 100%
+  );
+  box-shadow: var(--shadow-screen);
+}
+
+/* Auditorium room atmosphere */
+.auditorium {
+  background:
+    radial-gradient(
+      ellipse 90% 45% at 50% 12%,
+      color-mix(in srgb, var(--color-atmosphere) 13%, transparent),
+      transparent 70%
+    ),
+    linear-gradient(
+      180deg,
+      var(--color-room) 0%,
+      var(--color-room-deep) 100%
+    );
+}
+
+/* Seat legend samples (non-interactive) */
+.seat--legend {
+  margin: 0;
+  cursor: default;
+  pointer-events: none;
+  background-color: var(--color-seat-available);
+  width: 16px;
+  height: 14px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border: 1px solid var(--color-seat-border);
+}
+
+.seat--legend.seat--selected {
+  background-color: var(--color-seat-selected);
+  box-shadow: var(--shadow-seat-selected);
+}
+
+.seat--legend.seat--occupied {
+  background-color: var(--color-seat-occupied);
+  border: 1px solid var(--color-border);
+}
+
+@media screen and (min-width: 768px) {
+  .seat--legend {
+    width: 24px;
+    height: 21px;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+  }
+}
+
+/* Hide scrollbar in format strip on webkit */
+[data-slot="scroll-area-viewport"] {
+  scrollbar-width: none;
+}
+
+[data-slot="scroll-area-viewport"]::-webkit-scrollbar {
+  display: none;
+}
