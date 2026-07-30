@@ -5,7 +5,8 @@ export const ASPECT_RATIOS = {
   '2.20:1': { venues: '70mm' },
   '2.39:1': {
     venues: '35mm & constant width venues (Scope)'
-  }
+  },
+  '2.76:1': { venues: 'Ultra Panavision 70' }
 } as const
 
 export type AspectRatioId = keyof typeof ASPECT_RATIOS
@@ -16,7 +17,8 @@ export const ASPECT_RATIO_VALUES: Record<AspectRatioId, string> = {
   '1.85:1': '1.85 / 1',
   '1.90:1': '1.9 / 1',
   '2.20:1': '2.2 / 1',
-  '2.39:1': '2.39 / 1'
+  '2.39:1': '2.39 / 1',
+  '2.76:1': '2.76 / 1'
 }
 
 export interface ExhibitionFormat {

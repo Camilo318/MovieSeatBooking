@@ -10,7 +10,10 @@ import {
 import {
   SPIDER_MAN_BRAND_NEW_DAY_STILLS,
   THE_ODYSSEY_STILLS,
-  INTERSTELLAR_STILLS
+  INTERSTELLAR_STILLS,
+  OPPENHEIMER_STILLS,
+  THE_DARK_KNIGHT_STILLS,
+  SINNER_STILLS
 } from './stills'
 import type { FormatOption, Movie, Showing } from '@/types/domain'
 import { getAuditoriumForFormat } from './auditoriums'
@@ -61,7 +64,8 @@ export const MOVIE_CATALOG: readonly Movie[] = [
       { format: DOLBY_CINEMA_FORMAT, aspectRatios: ['2.20:1'] },
       { format: PREMIUM_LARGE_FORMAT, aspectRatios: ['2.20:1'] },
       { format: DIGITAL_FORMAT, aspectRatios: ['2.20:1'] }
-    ]
+    ],
+    stills: OPPENHEIMER_STILLS
   },
   {
     id: slugify('Interstellar'),
@@ -70,22 +74,17 @@ export const MOVIE_CATALOG: readonly Movie[] = [
     stills: INTERSTELLAR_STILLS
   },
   {
-    id: slugify('Dunkirk'),
-    title: 'Dunkirk',
-    formatOptions: FILM_PRINT_RELEASE
-  },
-  {
     id: slugify('Sinners'),
     title: 'Sinners',
     formatOptions: [
       { format: IMAX_70MM_FORMAT, aspectRatios: ['1.43:1'] },
       { format: IMAX_FORMAT, aspectRatios: ['1.90:1'] },
-      { format: FORMAT_70MM, aspectRatios: ['2.20:1'] },
-      { format: FORMAT_35MM, aspectRatios: ['2.39:1'] },
-      { format: DOLBY_CINEMA_FORMAT, aspectRatios: ['2.39:1'] },
-      { format: PREMIUM_LARGE_FORMAT, aspectRatios: ['2.39:1'] },
-      { format: DIGITAL_FORMAT, aspectRatios: ['2.39:1'] }
-    ]
+      { format: FORMAT_70MM, aspectRatios: ['2.76:1'] },
+      { format: DOLBY_CINEMA_FORMAT, aspectRatios: ['2.76:1'] },
+      { format: PREMIUM_LARGE_FORMAT, aspectRatios: ['2.76:1'] },
+      { format: DIGITAL_FORMAT, aspectRatios: ['2.76:1'] }
+    ],
+    stills: SINNER_STILLS
   },
   {
     id: slugify('The Dark Knight'),
@@ -95,7 +94,8 @@ export const MOVIE_CATALOG: readonly Movie[] = [
       { format: IMAX_FORMAT, aspectRatios: ['1.90:1'] },
       { format: FORMAT_35MM, aspectRatios: ['2.39:1'] },
       { format: DIGITAL_FORMAT, aspectRatios: ['2.39:1'] }
-    ]
+    ],
+    stills: THE_DARK_KNIGHT_STILLS
   },
   {
     id: slugify('Spider-Man: Brand New Day'),
@@ -112,25 +112,6 @@ export const MOVIE_CATALOG: readonly Movie[] = [
       { format: DIGITAL_FORMAT, aspectRatios: ['1.90:1', '2.39:1'] }
     ],
     stills: SPIDER_MAN_BRAND_NEW_DAY_STILLS
-  },
-  {
-    id: slugify('Avengers: End Game'),
-    title: 'Avengers: End Game',
-    formatOptions: [
-      { format: IMAX_FORMAT, aspectRatios: ['1.90:1'] },
-      { format: DOLBY_CINEMA_FORMAT, aspectRatios: ['2.39:1'] },
-      { format: PREMIUM_LARGE_FORMAT, aspectRatios: ['2.39:1'] },
-      { format: DIGITAL_FORMAT, aspectRatios: ['2.39:1'] }
-    ]
-  },
-  {
-    id: slugify('Toy Story 5'),
-    title: 'Toy Story 5',
-    formatOptions: [
-      { format: DOLBY_CINEMA_FORMAT, aspectRatios: ['1.85:1'] },
-      { format: PREMIUM_LARGE_FORMAT, aspectRatios: ['1.85:1'] },
-      { format: DIGITAL_FORMAT, aspectRatios: ['1.85:1'] }
-    ]
   }
 ] as const
 
